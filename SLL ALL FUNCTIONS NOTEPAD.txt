@@ -1,0 +1,447 @@
+#include<stdio.h>
+#include<stdlib.h>
+void insert_first();
+void Display();
+void insert_last();
+int Count();
+void Delete_first();
+void Delete_last();
+void Insert_between();
+void Delete_between();
+void search();
+int cnt;
+struct node
+          {
+          	int data;
+          	struct node *nxt;
+	
+				};
+				struct node *head = NULL;                        ///global
+int main()
+{
+	int choice;
+
+    while (1)
+    {
+    	printf("\n");
+    	puts("1: INSERT FIRST");
+    	puts("2: INSERT LAST");
+    	puts("3: INSERT BETWEEN");
+    	puts("4: DELETE FIRST");
+    	puts("5: DELETE LAST");
+    	puts("6: DELETE BETWEEN ");
+    	puts("7: COUNT ");
+    	puts("8: DISPLAY");
+    	puts("9: SEARCH");
+    	puts("10: EXIT");
+    	
+    	printf("\nENTER YOUR CHOICE = ");
+    	scanf("%d",&choice);
+    	
+    	switch(choice)
+    	{
+    	          case 1:
+    	          	insert_first();
+			      break;
+				   
+				   case 2:
+				     insert_last(); 
+				   break;
+				   
+				   case 3:
+                   Insert_between();
+				   break;
+				   
+				   case 4:
+				   	   Delete_first();
+				   break;
+				   
+				   case 5:
+				   	 Delete_last();
+				   break;
+				   
+				   case 6:
+				   	Delete_between();
+				   break;
+				   
+				   case 7:
+				   	cnt=Count();
+				   	printf("TOTAL NODES = %d\n",cnt);
+				   break;
+				   
+				   case 8:
+				   	Display();
+				   break;
+				   
+				   case 9:
+				   	search();
+				   break;
+				   
+				   case 10:
+				   {
+				      printf("PROGRAM CLOSED");
+				      return 0;
+				    } 
+				   break;
+				   
+				   default:
+				   	{
+				   		puts("\n INVALID CHOICE \n");
+					   }
+				   	
+		}
+	}
+return 0;	
+}
+
+
+void insert_first()
+{
+	int value;
+	struct node *ptr=NULL;
+	ptr=(struct node*)malloc(sizeof(struct node));
+	
+	if(ptr==NULL)
+	{
+		printf("MEMORY ALLOCATION FAILED\n");
+		return;
+	}
+	
+	printf("ENTER VALUE = ");
+	scanf("%d",&value);
+	
+	ptr->data=value;
+	ptr->nxt=NULL;
+	
+	if(head==NULL)
+    {
+	   head = ptr;
+	}	
+	else
+	{
+		ptr->nxt=head;
+		head = ptr;
+	}
+	return;
+}
+
+
+void Display()
+{
+	struct node *temp=head;
+	if(head==NULL)
+     	{
+		  puts("LIST IS EMPTY");
+		return;
+	   }
+	else
+	{
+	   while(temp!=NULL)
+    	{
+		printf(" %d->",temp->data);
+		temp=temp->nxt;
+    	}
+	}
+
+  return;	
+}
+
+void insert_last()
+{    
+    int value=0;
+	struct node *temp=head;
+	struct node *ptr=NULL;
+	ptr=(struct node*)malloc(sizeof(struct node));
+	
+	if(ptr==NULL)
+	{
+		printf("MEMORY ALLOCATION FAILED\n");
+		return;
+	}
+	
+	printf("ENTER VALUE = ");
+	scanf("%d",&value);
+	
+	ptr->data=value;
+	ptr->nxt=NULL;
+	
+	if(head==NULL)
+	{
+		head=ptr;
+	}
+	
+	else
+	{
+		while(temp->nxt!=NULL)
+    	{
+         temp=temp->nxt; 
+    	}
+    	temp->nxt=ptr;
+	}
+}
+
+
+
+int Count()
+{
+	int cnt=0;
+	struct node *temp=head;
+	if(head==NULL)
+     	{
+		  puts("ZERO NODES");
+		return cnt;
+	   }
+	else
+	{
+	   while(temp!=NULL)
+    	{
+		cnt++;
+		temp=temp->nxt;
+    	}
+	//	printf("\nTOTAL NODDES= %d\n",cnt);	
+	}
+
+  return cnt;	
+}
+
+void Delete_first()
+{
+	struct node *temp=head;
+	if(head==NULL)
+	{
+		printf("LIST IS EMPTY NOTHING TO DELETE");
+	}
+	
+	else if(head->nxt==NULL)
+	{
+		free(temp);
+		head=NULL;
+	}
+	
+	else
+	{
+		head=head->nxt;
+		free(temp);
+	}
+	return;
+}
+
+
+void Delete_last()
+{
+	struct node *temp=head;
+	int null=NULL;
+	if(head==NULL)
+	{
+		printf("LIST IS EMPTY NOTHING TO DELETE");
+	}
+	
+	else if(head->nxt==NULL)
+	{
+		free(temp);
+		head=NULL;
+	}
+	
+	else
+	{
+	 while(temp->nxt->nxt!=NULL)
+	  {
+		   temp=temp->nxt;
+    	}
+    }
+      free(temp->nxt);
+	  temp->nxt=NULL;		
+	  	
+}
+
+void Insert_between()
+{
+	int value,pos=0;
+	struct node *temp=head;
+	struct node *ptr=NULL;
+	ptr=(struct node*)malloc(sizeof(struct node));
+	
+	if(ptr==NULL)
+	{
+		printf("MEMORY ALLOCATION FAILED\n");
+		return;
+	}
+	
+	printf("ENTER POSITION = ");
+	scanf("%d",&pos);
+	
+	if(pos<1 || pos> Count()+1)
+	{
+		printf("INVALID POSITION\n");
+		return;
+	}
+	
+	printf("ENTER VALUE = ");
+	scanf("%d",&value);
+	
+	ptr->data=value;
+	ptr->nxt=NULL;
+	
+	if(pos==1)
+	{
+		     if(head==NULL)
+	         {
+	                 head = ptr;
+       	     }	
+   	 else
+     	{
+		    ptr->nxt=head;
+		   head = ptr;
+     	}	
+	}
+	
+	else if(pos==Count()+1)
+	{
+		while(ptr->nxt!=NULL)
+		{
+			temp=temp->nxt;
+		}
+		temp->nxt=ptr;
+	}
+    
+    else
+    {
+    	while(pos>2)
+    	{
+    		temp=temp->nxt;
+    		pos--;
+    	}
+    	ptr->nxt=temp->nxt;
+    	temp->nxt=ptr;
+    		
+	}
+	
+	return;
+}
+
+void Delete_between()
+{
+	struct node *temp=head;
+	struct node *temp1=head;
+	int pos=0,value=0;
+	
+	printf("ENTER POSITION = ");
+	scanf("%d",&pos);
+	
+	if(pos<1 || pos>Count())
+	{
+		printf("INVALID POSITION");
+		return;
+	}
+	
+
+	
+	else if(pos==1)
+	{
+		if(head==NULL)
+		{
+			printf("LIST IS EMPTY\n");
+			
+		}
+		
+		else if(head->nxt==NULL)
+		{
+			free(temp);
+	       	head=NULL;
+		}
+		
+		else
+		{
+			head=head->nxt;
+			free(temp);
+		}
+		return;
+	}
+
+else if(pos==Count())
+ {
+	
+	if(head==NULL)
+	{
+		printf("LIST IS EMPTY NOTHING TO DELETE");
+	}
+	
+	else if(head->nxt==NULL)
+	{
+		free(temp);
+		head=NULL;
+	}
+	
+	else
+	{
+	   while(temp->nxt->nxt!=NULL)
+	      {
+		   temp=temp->nxt;
+    	  }
+     }
+      free(temp->nxt);
+	  temp->nxt=NULL;		
+}
+
+
+  else 
+    {
+     
+	 while(pos>=2)
+	 {
+	 	temp1=temp;
+	 	temp=temp->nxt;
+	 	pos--;
+	 }
+	 	 temp1->nxt=temp->nxt;
+	 	 free(temp);   	
+    }
+}
+	  
+
+void search()
+{
+	
+	struct node *temp=head;
+	int value=0;
+	int flag=0;
+	printf("ENTER VALUE = ");
+	scanf("%d",&value);
+	
+	if(head==NULL)
+	{
+		printf("LIST IS EMPTY");
+	}
+	
+	else
+	{
+	
+	   while(temp!=NULL)
+	   
+    	{
+		   
+		   if(value==temp->data)
+		   {
+		   	   flag=1;	   	
+		   	   break;
+		   }
+		   temp=temp->nxt;
+    	}
+    	
+    	if(flag==0)
+    	{
+    		printf("\n ***  %d  *** VALUE NOT  FOUND \n",value);
+		}
+    	else
+    	{
+    		printf("\n ***  %d  *** VALUE  FOUND \n",value);
+    		return;
+		}
+    }
+
+  return;	
+}
+
+
+
+
